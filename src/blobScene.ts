@@ -58,7 +58,11 @@ export type BlobSceneOptions = {
   container?: HTMLElement | string
 }
 
-export function startBlobScene(options: BlobSceneOptions = {}) {
+export type BlobSceneHandle = {
+  destroy: () => void
+}
+
+export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle {
   const container = options.container
   const rootMaybe =
     typeof container === 'string'
@@ -176,8 +180,11 @@ export function startBlobScene(options: BlobSceneOptions = {}) {
   resize()
 
   const clock = new THREE.Clock()
+  let raf = 0
+  let destroyed = false
 
   function animate() {
+    if (destroyed) return
     const t = clock.getElapsedTime()
 
     // Slow spin + tiny bobbing while staying centered.
@@ -186,9 +193,26 @@ export function startBlobScene(options: BlobSceneOptions = {}) {
     pivot.position.y = Math.sin(t * 0.65) * 0.015
 
     renderer.render(scene, camera)
-    requestAnimationFrame(animate)
+    raf = requestAnimationFrame(animate)
   }
 
-  requestAnimationFrame(animate)
+  raf = requestAnimationFrame(animate)
+
+  return {
+    destroy: () => {
+      destroyed = true
+      if (raf) cancelAnimationFrame(raf)
+      window.removeEventListener('resize', resize)
+
+      geomTop.dispose()
+      geomBottom.dispose()
+      chromeMat.dispose()
+      pmrem.dispose()
+      envScene.dispose()
+
+      renderer.dispose()
+      renderer.domElement.remove()
+    },
+  }
 }
 

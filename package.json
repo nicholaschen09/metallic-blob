@@ -1,5 +1,5 @@
 {
-  "name": "code-is-a-blob",
+  "name": "metallic-blob",
   "version": "0.1.0",
   "private": false,
   "type": "module",
@@ -18,13 +18,23 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./react": {
+      "import": "./dist/react/MetallicBlob.js",
+      "types": "./dist/react/MetallicBlob.d.ts"
     }
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
   },
   "dependencies": {
     "simplex-noise": "^4.0.3",
     "three": "^0.183.2"
   },
   "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "@types/three": "^0.183.1",
     "typescript": "^6.0.2",
     "vite": "^8.0.3"

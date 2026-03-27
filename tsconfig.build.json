@@ -11,8 +11,9 @@
     "module": "ESNext",
     "target": "ES2019",
     "removeComments": false,
-    "allowImportingTsExtensions": false
+    "allowImportingTsExtensions": false,
+    "jsx": "react-jsx"
   },
-  "include": ["src/index.ts", "src/blobScene.ts", "src/shims.d.ts"]
+  "include": ["src/index.ts", "src/blobScene.ts", "src/react/MetallicBlob.tsx", "src/shims.d.ts"]
 }
 
