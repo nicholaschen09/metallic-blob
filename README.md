@@ -1,6 +1,6 @@
 # Metallic Blob React Component
 
-This is a small open-source demo that recreates the chrome/metallic blob scene using WebGL (Three.js).
+This is a small open-source react component that creates a chrome/metallic blob scene using WebGL (Three.js).
 
 ## Quick start
 
