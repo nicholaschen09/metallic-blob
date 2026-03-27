@@ -66,8 +66,8 @@ export function startBlobScene() {
   const scene = new THREE.Scene()
 
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100)
-  camera.position.set(0, 0.33, 4.7)
-  camera.lookAt(0, 0.2, 0)
+  camera.position.set(0, 0, 4.7)
+  camera.lookAt(0, 0, 0)
 
   // Reflective "chrome room" environment
   const envScene = new RoomEnvironment()
@@ -138,12 +138,12 @@ export function startBlobScene() {
   const bottom = new THREE.Mesh(geomBottom, snowMat)
   scene.add(top, bottom)
 
-  // Subtle "mount" to prevent the blob from floating forever.
   const pivot = new THREE.Group()
   pivot.add(top)
   pivot.add(bottom)
   // Make the whole blob smaller in the viewport.
   pivot.scale.setScalar(0.6)
+  pivot.position.set(0, 0, 0)
   scene.add(pivot)
 
   // Remove direct references from scene so we only animate through pivot.
@@ -165,10 +165,10 @@ export function startBlobScene() {
   function animate() {
     const t = clock.getElapsedTime()
 
-    // Slow spin + tiny bobbing to match the screenshot vibe.
+    // Slow spin + tiny bobbing while staying centered.
     pivot.rotation.y = t * 0.22
-    pivot.rotation.x = Math.sin(t * 0.32) * 0.08
-    pivot.position.y = Math.sin(t * 0.65) * 0.03
+    pivot.rotation.x = Math.sin(t * 0.32) * 0.06
+    pivot.position.y = Math.sin(t * 0.65) * 0.015
 
     renderer.render(scene, camera)
     requestAnimationFrame(animate)
