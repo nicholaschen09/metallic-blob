@@ -80,6 +80,11 @@ export type BlobAppearanceOptions = {
   wobbleAmountX?: number
   bobSpeedY?: number
   bobAmountY?: number
+  textureAmountTop?: number
+  textureAmountBottom?: number
+  textureFrequencyTop?: number
+  textureFrequencyBottom?: number
+  textureOctaves?: number
 }
 
 const defaultAppearance: Required<BlobAppearanceOptions> = {
@@ -99,6 +104,11 @@ const defaultAppearance: Required<BlobAppearanceOptions> = {
   wobbleAmountX: 0.06,
   bobSpeedY: 0.65,
   bobAmountY: 0.015,
+  textureAmountTop: 0.08,
+  textureAmountBottom: 0.05,
+  textureFrequencyTop: 1.45,
+  textureFrequencyBottom: 1.55,
+  textureOctaves: 4,
 }
 
 export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle {
@@ -150,36 +160,12 @@ export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle 
   const widthSeg = 140
   const heightSeg = 120
 
-  // Build two hemispheres so the top can be "chrome" and the bottom can be "snow".
-  const geomTop = new THREE.SphereGeometry(
-    radius,
-    widthSeg,
-    heightSeg,
-    0,
-    Math.PI * 2,
-    0,
-    Math.PI / 2,
-  )
-  const geomBottom = new THREE.SphereGeometry(
-    radius,
-    widthSeg,
-    heightSeg,
-    0,
-    Math.PI * 2,
-    Math.PI / 2 - 0.02,
-    Math.PI / 2 + 0.02,
-  )
 
-  displaceGeometry(geomTop, {
-    amplitude: 0.08,
-    frequency: 1.45,
-    octaves: 4,
-    noise3D,
-  })
-  displaceGeometry(geomBottom, {
-    amplitude: 0.05,
-    frequency: 1.55,
-    octaves: 4,
+  const geom = new THREE.SphereGeometry(radius, widthSeg, heightSeg)
+  displaceGeometry(geom, {
+    amplitude: (appearance.textureAmountTop + appearance.textureAmountBottom) * 0.5,
+    frequency: (appearance.textureFrequencyTop + appearance.textureFrequencyBottom) * 0.5,
+    octaves: appearance.textureOctaves,
     noise3D,
   })
 
@@ -189,24 +175,16 @@ export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle 
     roughness: appearance.roughness,
     envMapIntensity: appearance.envMapIntensity,
   })
-  // Use the same chrome material for both hemispheres so the blob
-  // has a consistent metallic look from top to bottom.
-  const snowMat = chromeMat
-
-  const top = new THREE.Mesh(geomTop, chromeMat)
-  const bottom = new THREE.Mesh(geomBottom, snowMat)
-  scene.add(top, bottom)
+  const blob = new THREE.Mesh(geom, chromeMat)
+  scene.add(blob)
 
   const pivot = new THREE.Group()
-  pivot.add(top)
-  pivot.add(bottom)
+  pivot.add(blob)
   pivot.scale.setScalar(appearance.blobScale)
   pivot.position.set(0, 0, 0)
   scene.add(pivot)
 
-  // Remove direct references from scene so we only animate through pivot.
-  scene.remove(top)
-  scene.remove(bottom)
+  scene.remove(blob)
 
   function resize() {
     const w = rootEl.clientWidth || window.innerWidth
@@ -242,8 +220,7 @@ export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle 
       if (raf) cancelAnimationFrame(raf)
       window.removeEventListener('resize', resize)
 
-      geomTop.dispose()
-      geomBottom.dispose()
+      geom.dispose()
       chromeMat.dispose()
       pmrem.dispose()
       envScene.dispose()
