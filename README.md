@@ -12,6 +12,7 @@ Install from npm:
 ```bash
 npm install metallic-blob
 ```
+https://www.npmjs.com/package/metallic-blob
 
 ## Usage
 
