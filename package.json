@@ -5,6 +5,11 @@
   "type": "module",
   "license": "MIT",
   "description": "A React component that renders a chrome 3D blob scene.",
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
   "scripts": {
     "dev": "vite --host",
     "prepack": "npm run build:lib",

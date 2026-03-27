@@ -1,0 +1,12 @@
+node_modules
+.DS_Store
+*.log
+*.tgz
+
+# Don’t ship sources in the tarball
+src
+
+# Don’t ship repo/dev config
+.git
+.github
+
