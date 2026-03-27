@@ -1,8 +1,8 @@
 # Metallic Blob React Component
 
-This is a small open-source react component that creates a chrome/metallic blob scene using WebGL (Three.js).
+This is a small open-source React component that renders a chrome/metallic blob scene using WebGL (Three.js).
 
-## Quick start
+## Demo (this repo) - Quick start
 
 1. Install deps:
    `npm install`
@@ -10,13 +10,11 @@ This is a small open-source react component that creates a chrome/metallic blob 
    `npm run dev`
 3. Open `http://localhost:5173`
 
-## Build
+## Demo (this repo) - Build
 
 `npm run build`
 
-## Use in your app
-
-React:
+## Usage (React)
 
 `import { MetallicBlob } from "metallic-blob/react"`
 
@@ -34,13 +32,43 @@ React:
 - `textureFrequencyTop`, `textureFrequencyBottom`
 - `textureOctaves`
 
-Interaction option:
+Appearance options are passed via the `appearance` prop.
+
+## Interaction
 
 - `draggable: true | false` (default `true`)
 
-Component props:
+## Component props
 
 - `className` / `style` are passed to the wrapping `<div>`
+
+## Install (npm)
+
+```bash
+npm install metallic-blob
+```
+
+```tsx
+import React from "react";
+import { MetallicBlob } from "metallic-blob/react";
+
+export default function Page() {
+  return (
+    <div style={{ width: 420, height: 420 }}>
+      <MetallicBlob
+        draggable={true}
+        appearance={{
+          blobScale: 0.5,
+          textureOctaves: 1,
+          textureAmountTop: 0.18,
+          textureAmountBottom: 0.15,
+        }}
+        style={{ width: "100%", height: "100%" }}
+      />
+    </div>
+  );
+}
+```
 
 ## License
 
