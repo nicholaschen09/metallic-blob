@@ -2,18 +2,6 @@
 
 This is a small open-source React component that renders a chrome/metallic blob scene using WebGL (Three.js).
 
-## Demo (this repo) - Quick start
-
-1. Install deps:
-   `npm install`
-2. Run dev server:
-   `npm run dev`
-3. Open `http://localhost:5173`
-
-## Demo (this repo) - Build
-
-`npm run build`
-
 ## Usage (React)
 
 `import { MetallicBlob } from "metallic-blob/react"`
