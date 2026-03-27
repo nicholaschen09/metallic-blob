@@ -4,7 +4,7 @@
   "private": false,
   "type": "module",
   "license": "MIT",
-  "description": "A tiny open-source demo that renders the 'your code is a blob' 3D scene.",
+  "description": "A tiny open-source demo that renders a chrome/snow 3D blob scene.",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",

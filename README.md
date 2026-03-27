@@ -1,6 +1,6 @@
-# Code is a Blob
+# Blob Demo
 
-This is a small open-source demo that recreates the “YOUR CODE IS A BLOB” chrome/snow blob scene from your screenshot using WebGL (Three.js).
+This is a small open-source demo that recreates the chrome/snow blob scene from your screenshot using WebGL (Three.js).
 
 ## Quick start
 
@@ -14,9 +14,9 @@ This is a small open-source demo that recreates the “YOUR CODE IS A BLOB” ch
 
 `npm run build`
 
-## Change the caption
+## Caption
 
-Edit the text in `index.html` (`YOUR CODE IS A BLOB`) or wire it up to a query param if you want the same scene to work as a shareable “card”.
+This version renders the scene without caption text.
 
 ## License
 
