@@ -42,7 +42,7 @@ Appearance options are passed via the `appearance` prop.
 
 - `className` / `style` are passed to the wrapping `<div>`
 
-## Install (npm)
+## Install
 
 Install from the GitHub Releases tarball:
 
