@@ -138,10 +138,10 @@ export type BlobAppearanceOptions = {
 
 const defaultAppearance: Required<BlobAppearanceOptions> = {
   backgroundColor: '#0b0b0e',
-  blobColor: '#d6dee6',
+  blobColor: '#ddd8cd',
   metalness: 1,
-  roughness: 0.12,
-  envMapIntensity: 1.2,
+  roughness: 0.04,
+  envMapIntensity: 1.75,
   blobScale: 0.6,
   cameraZ: 4.7,
   cameraFov: 32,
@@ -200,7 +200,7 @@ export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle 
   key.position.set(2, 2.8, 1.2)
   scene.add(key)
 
-  const rim = new THREE.DirectionalLight(0x8fb6ff, appearance.rimLightIntensity)
+  const rim = new THREE.DirectionalLight(0xf7f1e2, appearance.rimLightIntensity)
   rim.position.set(-2, 0.8, -2)
   scene.add(rim)
 
