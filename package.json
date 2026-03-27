@@ -5,10 +5,6 @@
   "type": "module",
   "license": "MIT",
   "description": "A tiny open-source demo that renders the 'your code is a blob' 3D scene.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/your-username/code-is-a-blob"
-  },
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
