@@ -1,5 +1,4 @@
-export { startBlobScene } from './blobScene'
-export type { BlobSceneOptions } from './blobScene'
-export type { BlobSceneHandle } from './blobScene'
+export { MetallicBlob } from './react/MetallicBlob'
+export type { MetallicBlobProps } from './react/MetallicBlob'
 export type { BlobAppearanceOptions } from './blobScene'
 

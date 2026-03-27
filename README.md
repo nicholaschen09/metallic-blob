@@ -1,6 +1,6 @@
-# Blob Demo
+# Metallic Blob React Component
 
-This is a small open-source demo that recreates the chrome/snow blob scene from your screenshot using WebGL (Three.js).
+This is a small open-source demo that recreates the chrome/metallic blob scene using WebGL (Three.js).
 
 ## Quick start
 
@@ -16,15 +16,11 @@ This is a small open-source demo that recreates the chrome/snow blob scene from 
 
 ## Use in your app
 
-Vanilla:
-
-`import { startBlobScene } from "metallic-blob"`
-
 React:
 
 `import { MetallicBlob } from "metallic-blob/react"`
 
-Both APIs support `appearance` options:
+`MetallicBlob` supports `appearance` options:
 
 - `blobScale`, `blobColor`
 - `metalness`, `roughness`, `envMapIntensity`
