@@ -65,8 +65,8 @@ export function startBlobScene() {
 
   const scene = new THREE.Scene()
 
-  const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100)
-  camera.position.set(0, 0.35, 3.5)
+  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100)
+  camera.position.set(0, 0.33, 4.7)
   camera.lookAt(0, 0.2, 0)
 
   // Reflective "chrome room" environment
@@ -75,13 +75,13 @@ export function startBlobScene() {
   scene.environment = pmrem.fromScene(envScene).texture
 
   // Lights for extra contrast
-  scene.add(new THREE.AmbientLight(0xffffff, 0.35))
+  scene.add(new THREE.AmbientLight(0xffffff, 0.28))
 
   const key = new THREE.DirectionalLight(0xffffff, 1.25)
   key.position.set(2, 2.8, 1.2)
   scene.add(key)
 
-  const rim = new THREE.DirectionalLight(0x8fb6ff, 0.65)
+  const rim = new THREE.DirectionalLight(0x8fb6ff, 0.55)
   rim.position.set(-2, 0.8, -2)
   scene.add(rim)
 
@@ -131,10 +131,11 @@ export function startBlobScene() {
     envMapIntensity: 1.2,
   })
   const snowMat = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#f6f3ea'),
-    metalness: 0.08,
-    roughness: 0.92,
-    envMapIntensity: 0.2,
+    // Slightly darker, more "chalk" than pure white.
+    color: new THREE.Color('#e5e0d2'),
+    metalness: 0.02,
+    roughness: 0.86,
+    envMapIntensity: 0.08,
   })
 
   const top = new THREE.Mesh(geomTop, chromeMat)
@@ -145,6 +146,8 @@ export function startBlobScene() {
   const pivot = new THREE.Group()
   pivot.add(top)
   pivot.add(bottom)
+  // Make the whole blob smaller in the viewport.
+  pivot.scale.setScalar(0.6)
   scene.add(pivot)
 
   // Remove direct references from scene so we only animate through pivot.
