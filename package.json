@@ -7,6 +7,7 @@
   "description": "A React component that renders a chrome 3D blob scene.",
   "scripts": {
     "dev": "vite --host",
+    "prepack": "npm run build:lib",
     "build:lib": "tsc -p tsconfig.build.json",
     "build": "npm run build:lib && vite build",
     "preview": "vite preview --host"
