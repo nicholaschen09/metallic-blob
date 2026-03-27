@@ -230,6 +230,11 @@ export type BlobSceneHandle = {
 
 export type BlobAppearanceOptions = {
   backgroundColor?: THREE.ColorRepresentation
+  /**
+   * Alpha for the renderer clear color.
+   * Use `0` to make the canvas background transparent.
+   */
+  backgroundAlpha?: number
   blobColor?: THREE.ColorRepresentation
   metalness?: number
   roughness?: number
@@ -254,6 +259,7 @@ export type BlobAppearanceOptions = {
 
 const defaultAppearance: Required<BlobAppearanceOptions> = {
   backgroundColor: '#0b0b0e',
+  backgroundAlpha: 1,
   blobColor: '#ddd8cd',
   metalness: 1,
   roughness: 0.04,
@@ -293,7 +299,7 @@ export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle 
     alpha: true,
     powerPreference: 'high-performance',
   })
-  renderer.setClearColor(new THREE.Color(appearance.backgroundColor), 1)
+  renderer.setClearColor(new THREE.Color(appearance.backgroundColor), appearance.backgroundAlpha)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
   rootEl.appendChild(renderer.domElement)
   renderer.domElement.classList.add('webgl')

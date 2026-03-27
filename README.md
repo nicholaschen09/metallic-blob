@@ -23,6 +23,7 @@ This is a small open-source React component that renders a chrome/metallic blob 
 - `blobScale`, `blobColor`
 - `metalness`, `roughness`, `envMapIntensity`
 - `backgroundColor`
+- `backgroundAlpha` (set to `0` for transparent background)
 - `ambientLightIntensity`
 - `keyLightIntensity`
 - `rimLightIntensity`
