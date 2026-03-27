@@ -1,5 +1,5 @@
 import './styles.css'
-import { startBlobScene } from './blobScene'
+import { startBlobScene } from './blobScene.ts'
 
 startBlobScene()
 

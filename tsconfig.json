@@ -10,6 +10,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "strict": true,
+    "allowImportingTsExtensions": true,
     "types": ["vite/client"]
   },
   "include": ["src"]
