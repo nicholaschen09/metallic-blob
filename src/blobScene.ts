@@ -12,6 +12,54 @@ function mulberry32(seed: number) {
   }
 }
 
+function weldVerticesByPosition(
+  geom: THREE.BufferGeometry,
+  tolerance = 1e-6,
+): THREE.BufferGeometry {
+  const pos = geom.getAttribute('position')
+
+  if (!(pos instanceof THREE.BufferAttribute) || pos.itemSize !== 3) {
+    throw new Error('Blob geometry is missing a valid position attribute')
+  }
+
+  const quantize = (value: number) => Math.round(value / tolerance)
+  const uniquePositions: number[] = []
+  const indices: number[] = []
+  const vertexMap = new Map<string, number>()
+
+  const getVertexIndex = (sourceIndex: number) => {
+    const x = pos.getX(sourceIndex)
+    const y = pos.getY(sourceIndex)
+    const z = pos.getZ(sourceIndex)
+    const key = `${quantize(x)},${quantize(y)},${quantize(z)}`
+    const existingIndex = vertexMap.get(key)
+
+    if (existingIndex !== undefined) {
+      return existingIndex
+    }
+
+    const nextIndex = uniquePositions.length / 3
+    uniquePositions.push(x, y, z)
+    vertexMap.set(key, nextIndex)
+    return nextIndex
+  }
+
+  if (geom.index) {
+    for (let i = 0; i < geom.index.count; i++) {
+      indices.push(getVertexIndex(geom.index.getX(i)))
+    }
+  } else {
+    for (let i = 0; i < pos.count; i++) {
+      indices.push(getVertexIndex(i))
+    }
+  }
+
+  const welded = new THREE.BufferGeometry()
+  welded.setAttribute('position', new THREE.Float32BufferAttribute(uniquePositions, 3))
+  welded.setIndex(indices)
+  return welded
+}
+
 function displaceGeometry(
   geom: THREE.BufferGeometry,
   opts: {
@@ -162,8 +210,10 @@ export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle 
   const widthSeg = 140
   const heightSeg = 120
 
+  const baseGeom = new THREE.SphereGeometry(radius, widthSeg, heightSeg)
+  const geom = weldVerticesByPosition(baseGeom)
+  baseGeom.dispose()
 
-  const geom = new THREE.SphereGeometry(radius, widthSeg, heightSeg)
   displaceGeometry(geom, {
     amplitude: (appearance.textureAmountTop + appearance.textureAmountBottom) * 0.5,
     frequency: (appearance.textureFrequencyTop + appearance.textureFrequencyBottom) * 0.5,
@@ -280,4 +330,3 @@ export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle 
     },
   }
 }
-
