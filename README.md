@@ -14,9 +14,23 @@ This is a small open-source demo that recreates the chrome/snow blob scene from 
 
 `npm run build`
 
-## Caption
+## Use in your app
 
-This version renders the scene without caption text.
+Vanilla:
+
+`import { startBlobScene } from "metallic-blob"`
+
+React:
+
+`import { MetallicBlob } from "metallic-blob/react"`
+
+Both APIs support `appearance` options:
+
+- `blobScale`, `blobColor`
+- `metalness`, `roughness`, `envMapIntensity`
+- `backgroundColor`
+- `cameraZ`, `cameraFov`
+- `spinSpeedY`, `wobbleSpeedX`, `wobbleAmountX`, `bobSpeedY`, `bobAmountY`
 
 ## License
 

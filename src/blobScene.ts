@@ -56,14 +56,54 @@ export type BlobSceneOptions = {
    * - omitted: falls back to `#app`
    */
   container?: HTMLElement | string
+  appearance?: BlobAppearanceOptions
 }
 
 export type BlobSceneHandle = {
   destroy: () => void
 }
 
+export type BlobAppearanceOptions = {
+  backgroundColor?: THREE.ColorRepresentation
+  blobColor?: THREE.ColorRepresentation
+  metalness?: number
+  roughness?: number
+  envMapIntensity?: number
+  blobScale?: number
+  cameraZ?: number
+  cameraFov?: number
+  ambientLightIntensity?: number
+  keyLightIntensity?: number
+  rimLightIntensity?: number
+  spinSpeedY?: number
+  wobbleSpeedX?: number
+  wobbleAmountX?: number
+  bobSpeedY?: number
+  bobAmountY?: number
+}
+
+const defaultAppearance: Required<BlobAppearanceOptions> = {
+  backgroundColor: '#0b0b0e',
+  blobColor: '#d6dee6',
+  metalness: 1,
+  roughness: 0.12,
+  envMapIntensity: 1.2,
+  blobScale: 0.6,
+  cameraZ: 4.7,
+  cameraFov: 32,
+  ambientLightIntensity: 0.28,
+  keyLightIntensity: 1.25,
+  rimLightIntensity: 0.55,
+  spinSpeedY: 0.22,
+  wobbleSpeedX: 0.32,
+  wobbleAmountX: 0.06,
+  bobSpeedY: 0.65,
+  bobAmountY: 0.015,
+}
+
 export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle {
   const container = options.container
+  const appearance = { ...defaultAppearance, ...(options.appearance ?? {}) }
   const rootMaybe =
     typeof container === 'string'
       ? (document.querySelector<HTMLElement>(container) as HTMLElement | null)
@@ -77,15 +117,15 @@ export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle 
     alpha: true,
     powerPreference: 'high-performance',
   })
-  renderer.setClearColor(0x0b0b0e, 1)
+  renderer.setClearColor(new THREE.Color(appearance.backgroundColor), 1)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
   rootEl.appendChild(renderer.domElement)
   renderer.domElement.classList.add('webgl')
 
   const scene = new THREE.Scene()
 
-  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100)
-  camera.position.set(0, 0, 4.7)
+  const camera = new THREE.PerspectiveCamera(appearance.cameraFov, 1, 0.1, 100)
+  camera.position.set(0, 0, appearance.cameraZ)
   camera.lookAt(0, 0, 0)
 
   // Reflective "chrome room" environment
@@ -94,13 +134,13 @@ export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle 
   scene.environment = pmrem.fromScene(envScene).texture
 
   // Lights for extra contrast
-  scene.add(new THREE.AmbientLight(0xffffff, 0.28))
+  scene.add(new THREE.AmbientLight(0xffffff, appearance.ambientLightIntensity))
 
-  const key = new THREE.DirectionalLight(0xffffff, 1.25)
+  const key = new THREE.DirectionalLight(0xffffff, appearance.keyLightIntensity)
   key.position.set(2, 2.8, 1.2)
   scene.add(key)
 
-  const rim = new THREE.DirectionalLight(0x8fb6ff, 0.55)
+  const rim = new THREE.DirectionalLight(0x8fb6ff, appearance.rimLightIntensity)
   rim.position.set(-2, 0.8, -2)
   scene.add(rim)
 
@@ -144,10 +184,10 @@ export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle 
   })
 
   const chromeMat = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#d6dee6'),
-    metalness: 1,
-    roughness: 0.12,
-    envMapIntensity: 1.2,
+    color: new THREE.Color(appearance.blobColor),
+    metalness: appearance.metalness,
+    roughness: appearance.roughness,
+    envMapIntensity: appearance.envMapIntensity,
   })
   // Use the same chrome material for both hemispheres so the blob
   // has a consistent metallic look from top to bottom.
@@ -160,8 +200,7 @@ export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle 
   const pivot = new THREE.Group()
   pivot.add(top)
   pivot.add(bottom)
-  // Make the whole blob smaller in the viewport.
-  pivot.scale.setScalar(0.6)
+  pivot.scale.setScalar(appearance.blobScale)
   pivot.position.set(0, 0, 0)
   scene.add(pivot)
 
@@ -187,10 +226,9 @@ export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle 
     if (destroyed) return
     const t = clock.getElapsedTime()
 
-    // Slow spin + tiny bobbing while staying centered.
-    pivot.rotation.y = t * 0.22
-    pivot.rotation.x = Math.sin(t * 0.32) * 0.06
-    pivot.position.y = Math.sin(t * 0.65) * 0.015
+    pivot.rotation.y = t * appearance.spinSpeedY
+    pivot.rotation.x = Math.sin(t * appearance.wobbleSpeedX) * appearance.wobbleAmountX
+    pivot.position.y = Math.sin(t * appearance.bobSpeedY) * appearance.bobAmountY
 
     renderer.render(scene, camera)
     raf = requestAnimationFrame(animate)
