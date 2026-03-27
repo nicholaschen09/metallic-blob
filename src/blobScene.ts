@@ -48,10 +48,25 @@ function displaceGeometry(
   geom.computeVertexNormals()
 }
 
-export function startBlobScene() {
-  const root = document.getElementById('app')
-  if (!root) throw new Error('Missing #app element')
-  const rootEl = root as HTMLElement
+export type BlobSceneOptions = {
+  /**
+   * Container element or CSS selector where the canvas should be attached.
+   * - HTMLElement: used directly
+   * - string: `document.querySelector` is used
+   * - omitted: falls back to `#app`
+   */
+  container?: HTMLElement | string
+}
+
+export function startBlobScene(options: BlobSceneOptions = {}) {
+  const container = options.container
+  const rootMaybe =
+    typeof container === 'string'
+      ? (document.querySelector<HTMLElement>(container) as HTMLElement | null)
+      : (container as HTMLElement | null) ?? document.getElementById('app')
+
+  if (!rootMaybe) throw new Error('Missing container element for blob scene')
+  const rootEl: HTMLElement = rootMaybe
 
   const renderer = new THREE.WebGLRenderer({
     antialias: true,

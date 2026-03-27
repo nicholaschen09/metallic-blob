@@ -1,5 +1,5 @@
 import './styles.css'
-import { startBlobScene } from './blobScene.ts'
+import { startBlobScene } from './blobScene'
 
-startBlobScene()
+startBlobScene({ container: '#app' })
 

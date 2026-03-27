@@ -7,8 +7,18 @@
   "description": "A tiny open-source demo that renders a chrome/snow 3D blob scene.",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build",
+    "build:lib": "tsc -p tsconfig.build.json",
+    "build": "npm run build:lib && vite build",
     "preview": "vite preview --host"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "dependencies": {
     "simplex-noise": "^4.0.3",
