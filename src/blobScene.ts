@@ -130,13 +130,9 @@ export function startBlobScene() {
     roughness: 0.12,
     envMapIntensity: 1.2,
   })
-  const snowMat = new THREE.MeshStandardMaterial({
-    // Slightly darker, more "chalk" than pure white.
-    color: new THREE.Color('#e5e0d2'),
-    metalness: 0.02,
-    roughness: 0.86,
-    envMapIntensity: 0.08,
-  })
+  // Use the same chrome material for both hemispheres so the blob
+  // has a consistent metallic look from top to bottom.
+  const snowMat = chromeMat
 
   const top = new THREE.Mesh(geomTop, chromeMat)
   const bottom = new THREE.Mesh(geomBottom, snowMat)
