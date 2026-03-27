@@ -1,0 +1,26 @@
+{
+  "name": "code-is-a-blob",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "license": "MIT",
+  "description": "A tiny open-source demo that renders the 'your code is a blob' 3D scene.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/code-is-a-blob"
+  },
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview --host"
+  },
+  "dependencies": {
+    "simplex-noise": "^4.0.3",
+    "three": "^0.183.2"
+  },
+  "devDependencies": {
+    "@types/three": "^0.183.1",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.3"
+  }
+}
