@@ -32,6 +32,10 @@ Both APIs support `appearance` options:
 - `cameraZ`, `cameraFov`
 - `spinSpeedY`, `wobbleSpeedX`, `wobbleAmountX`, `bobSpeedY`, `bobAmountY`
 
+Interaction option:
+
+- `draggable: true | false` (default `true`)
+
 ## License
 
 MIT

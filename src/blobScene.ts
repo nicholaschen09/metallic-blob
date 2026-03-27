@@ -57,6 +57,7 @@ export type BlobSceneOptions = {
    */
   container?: HTMLElement | string
   appearance?: BlobAppearanceOptions
+  draggable?: boolean
 }
 
 export type BlobSceneHandle = {
@@ -114,6 +115,7 @@ const defaultAppearance: Required<BlobAppearanceOptions> = {
 export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle {
   const container = options.container
   const appearance = { ...defaultAppearance, ...(options.appearance ?? {}) }
+  const draggable = options.draggable ?? true
   const rootMaybe =
     typeof container === 'string'
       ? (document.querySelector<HTMLElement>(container) as HTMLElement | null)
@@ -199,13 +201,55 @@ export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle 
   const clock = new THREE.Clock()
   let raf = 0
   let destroyed = false
+  let isDragging = false
+  let dragPointerId: number | null = null
+  let lastPointerX = 0
+  let lastPointerY = 0
+  let dragRotateX = 0
+  let dragRotateY = 0
+
+  const onPointerDown = (event: PointerEvent) => {
+    isDragging = true
+    dragPointerId = event.pointerId
+    lastPointerX = event.clientX
+    lastPointerY = event.clientY
+    renderer.domElement.setPointerCapture(event.pointerId)
+  }
+
+  const onPointerMove = (event: PointerEvent) => {
+    if (!isDragging || dragPointerId !== event.pointerId) return
+    const dx = event.clientX - lastPointerX
+    const dy = event.clientY - lastPointerY
+    lastPointerX = event.clientX
+    lastPointerY = event.clientY
+
+    dragRotateY += dx * 0.006
+    dragRotateX += dy * 0.004
+    dragRotateX = THREE.MathUtils.clamp(dragRotateX, -0.8, 0.8)
+  }
+
+  const stopDragging = (event: PointerEvent) => {
+    if (dragPointerId !== event.pointerId) return
+    isDragging = false
+    dragPointerId = null
+    renderer.domElement.releasePointerCapture(event.pointerId)
+  }
+
+  if (draggable) {
+    renderer.domElement.style.touchAction = 'none'
+    renderer.domElement.addEventListener('pointerdown', onPointerDown)
+    renderer.domElement.addEventListener('pointermove', onPointerMove)
+    renderer.domElement.addEventListener('pointerup', stopDragging)
+    renderer.domElement.addEventListener('pointercancel', stopDragging)
+  }
 
   function animate() {
     if (destroyed) return
     const t = clock.getElapsedTime()
 
-    pivot.rotation.y = t * appearance.spinSpeedY
-    pivot.rotation.x = Math.sin(t * appearance.wobbleSpeedX) * appearance.wobbleAmountX
+    pivot.rotation.y = t * appearance.spinSpeedY + dragRotateY
+    pivot.rotation.x =
+      Math.sin(t * appearance.wobbleSpeedX) * appearance.wobbleAmountX + dragRotateX
     pivot.position.y = Math.sin(t * appearance.bobSpeedY) * appearance.bobAmountY
 
     renderer.render(scene, camera)
@@ -219,6 +263,12 @@ export function startBlobScene(options: BlobSceneOptions = {}): BlobSceneHandle 
       destroyed = true
       if (raf) cancelAnimationFrame(raf)
       window.removeEventListener('resize', resize)
+      if (draggable) {
+        renderer.domElement.removeEventListener('pointerdown', onPointerDown)
+        renderer.domElement.removeEventListener('pointermove', onPointerMove)
+        renderer.domElement.removeEventListener('pointerup', stopDragging)
+        renderer.domElement.removeEventListener('pointercancel', stopDragging)
+      }
 
       geom.dispose()
       chromeMat.dispose()
