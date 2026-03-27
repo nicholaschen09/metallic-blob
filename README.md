@@ -25,12 +25,22 @@ React:
 - `blobScale`, `blobColor`
 - `metalness`, `roughness`, `envMapIntensity`
 - `backgroundColor`
+- `ambientLightIntensity`
+- `keyLightIntensity`
+- `rimLightIntensity`
 - `cameraZ`, `cameraFov`
 - `spinSpeedY`, `wobbleSpeedX`, `wobbleAmountX`, `bobSpeedY`, `bobAmountY`
+- `textureAmountTop`, `textureAmountBottom`
+- `textureFrequencyTop`, `textureFrequencyBottom`
+- `textureOctaves`
 
 Interaction option:
 
 - `draggable: true | false` (default `true`)
+
+Component props:
+
+- `className` / `style` are passed to the wrapping `<div>`
 
 ## License
 
