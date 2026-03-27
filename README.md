@@ -5,42 +5,15 @@ This is a small open-source React component that renders a chrome/metallic blob 
 <img width="1653" height="1057" alt="Screenshot 2026-03-27 at 7 41 03 AM" src="https://github.com/user-attachments/assets/b9f52415-fe78-4b1a-b310-b2519d0d35e0" />
 
 
-## Usage (React)
+## Installation
 
-`import { MetallicBlob } from "metallic-blob/react"`
-
-`MetallicBlob` supports `appearance` options:
-
-- `blobScale`, `blobColor`
-- `metalness`, `roughness`, `envMapIntensity`
-- `backgroundColor`
-- `backgroundAlpha` (set to `0` for transparent background)
-- `ambientLightIntensity`
-- `keyLightIntensity`
-- `rimLightIntensity`
-- `cameraZ`, `cameraFov`
-- `spinSpeedY`, `wobbleSpeedX`, `wobbleAmountX`, `bobSpeedY`, `bobAmountY`
-- `textureAmountTop`, `textureAmountBottom`
-- `textureFrequencyTop`, `textureFrequencyBottom`
-- `textureOctaves`
-
-Appearance options are passed via the `appearance` prop.
-
-## Interaction
-
-- `draggable: true | false` (default `true`)
-
-## Component props
-
-- `className` / `style` are passed to the wrapping `<div>`
-
-## Install
-
-Install from the GitHub Releases tarball:
+Install from npm:
 
 ```bash
-npm i "https://github.com/nicholaschen09/metallic-blob/releases/download/v0.1.2/metallic-blob-0.1.2.tgz"
+npm install metallic-blob
 ```
+
+## Usage
 
 ```tsx
 import React from "react";
@@ -63,6 +36,40 @@ export default function Page() {
   );
 }
 ```
+
+## Props
+
+### `MetallicBlob` props
+
+- `className?: string`
+- `style?: React.CSSProperties`
+- `draggable?: boolean` (default `true`)
+- `appearance?: BlobAppearanceOptions`
+
+### `appearance` (`BlobAppearanceOptions`)
+
+- `blobScale?: number`
+- `blobColor?: string`
+- `metalness?: number`
+- `roughness?: number`
+- `envMapIntensity?: number`
+- `backgroundColor?: string`
+- `backgroundAlpha?: number` (set `0` = transparent)
+- `ambientLightIntensity?: number`
+- `keyLightIntensity?: number`
+- `rimLightIntensity?: number`
+- `cameraZ?: number`
+- `cameraFov?: number`
+- `spinSpeedY?: number`
+- `wobbleSpeedX?: number`
+- `wobbleAmountX?: number`
+- `bobSpeedY?: number`
+- `bobAmountY?: number`
+- `textureAmountTop?: number`
+- `textureAmountBottom?: number`
+- `textureFrequencyTop?: number`
+- `textureFrequencyBottom?: number`
+- `textureOctaves?: number`
 
 ## License
 
