@@ -48,7 +48,7 @@ Appearance options are passed via the `appearance` prop.
 Install from the GitHub Releases tarball:
 
 ```bash
-npm i "https://github.com/nicholaschen09/metallic-blob/releases/download/v0.1.0/metallic-blob-0.1.0.tgz"
+npm i "https://github.com/nicholaschen09/metallic-blob/releases/download/v0.1.1/metallic-blob-0.1.1.tgz"
 ```
 
 ```tsx
